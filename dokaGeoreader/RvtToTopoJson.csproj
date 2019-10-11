@@ -7,8 +7,8 @@
     <ProjectGuid>{32130E5C-5707-431F-BF4D-8BE464625C52}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>dokaGeoreader</RootNamespace>
-    <AssemblyName>dokaGeoreader</AssemblyName>
+    <RootNamespace>RvtToTopoJson</RootNamespace>
+    <AssemblyName>RvtToTopoJson</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartAction>Program</StartAction>

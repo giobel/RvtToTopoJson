@@ -51,7 +51,7 @@ namespace RvtToTopoJson
         public void ExportGEOJson(string name) {
             var feature = new Feature(Geometries(poly));
             string json = JsonConvert.SerializeObject(feature,Formatting.Indented);
-            StreamWriter writetext = new StreamWriter(name+".geojson");
+            StreamWriter writetext = new StreamWriter(name+".json");
             writetext.WriteLine(json);
             writetext.Flush();
             writetext.Close();

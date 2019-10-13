@@ -60,8 +60,8 @@ namespace TopoJson
 
     public partial class Properties
     {
-        [JsonProperty("postal")]
-        public string Postal { get; set; }
+        [JsonProperty("Number")]
+        public string Number { get; set; }
 
         [JsonProperty("Room Name")]
         public string RoomName { get; set; }

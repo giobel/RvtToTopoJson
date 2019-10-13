@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RvtToTopoJson</RootNamespace>
     <AssemblyName>RvtToTopoJson</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Autodesk\Revit 2018\revit.exe</StartProgram>
@@ -62,7 +62,7 @@
     <Compile Include="FileExport.cs" />
     <Compile Include="GeoJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MyFeatureProperty.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="TopoJson.cs" />
   </ItemGroup>
   <ItemGroup>

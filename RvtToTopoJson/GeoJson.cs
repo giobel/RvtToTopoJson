@@ -10,6 +10,7 @@ using Autodesk.Revit.UI.Selection;
 using GeoJSON.Net.Feature;
 using Newtonsoft.Json;
 using System.Linq;
+using System;
 
 namespace doka
 {
@@ -37,7 +38,9 @@ namespace doka
 
             IList<Reference> roomReferences = uidoc.Selection.PickObjects(ObjectType.Element, "Select some rooms");
 
-            Polygon polygon = null;
+            SpatialElementBoundaryOptions opt = new SpatialElementBoundaryOptions();
+
+            var features = new List<Feature>();
 
             foreach (Reference re in roomReferences)
             {
@@ -49,62 +52,81 @@ namespace doka
                 SpatialElement se = doc.GetElement(re) as SpatialElement;
 
                 //multiPolygon.Add(Helpers.RoomBoundary(doc, re, ttr));
+                
+                IList<IList<BoundarySegment>> loops = se.GetBoundarySegments(opt);
+                
+                var featureProps = new Dictionary<string, object> { { "Name", roomName }, { "Area", se.Area } };
 
-                polygon = new Polygon(new List<LineString>
-                                {
-                                    new LineString(new List<IPosition>
-                                    {
-                                        new Position(0,0),
-                                        new Position(0,1),
-                                        new Position(2,1),
-                                        new Position(2,0),
-                                        new Position(0,0),
-                                    })
-                                });
+                var coordinates = new List<Position>();
 
-                multiPolygon.Add(polygon);
+                foreach (IList<BoundarySegment> loop in loops)
+                {
+                    ElementId segId = new ElementId(123456);
+
+                    foreach (BoundarySegment seg in loop)
+                    {
+                        Line segLine = seg.GetCurve() as Line;
+                        XYZ endPt = segLine.Origin;
+
+                        if (segId == seg.ElementId)
+                        {
+
+                        }
+                        else
+                        {
+                            //TaskDialog.Show("re", $"{endPt.Y} {endPt.X}");
+                           coordinates.Add(new Position(Convert.ToInt16(endPt.Y), Convert.ToInt16(endPt.X)));
+                        }
+
+                        segId = seg.ElementId;
+
+                    }
+                }
+
+                coordinates.Add(coordinates.First());
+
+                var polygon = new Polygon(new List<LineString> { new LineString(coordinates) });
+
+                features.Add(new Feature(polygon, featureProps));
 
             }
 
-            var coordinates1 = new List<Position>
-                {
-                    new Position(0,0),
-                    new Position(1,0),
-                    new Position(1,2),
-                    new Position(0,2),
-                    new Position(0,0)
+            //// x-y coords swapped (lat-long)
+            //var coordinates1 = new List<Position>
+            //    {
+            //        new Position(0,0),
+            //        new Position(0,1),
+            //        new Position(2,1),
+            //        new Position(2,0),
+            //        new Position(0,0)
 
-                }.ToList<IPosition>();
+            //    }.ToList<IPosition>();
 
-            var polygon1 = new Polygon(new List<LineString> { new LineString(coordinates1) });
-            var featureProperties1 = new Dictionary<string, object> { { "Name", "Foo" },{ "Area", "456" } };
-            var model1 = new GeoJSON.Net.Feature.Feature(polygon1, featureProperties1);
+            //var polygon1 = new Polygon(new List<LineString> { new LineString(coordinates1) });
+            //var featureProperties1 = new Dictionary<string, object> { { "Name", "Foo" },{ "Area", "456" } };
+            //var model1 = new Feature(polygon1, featureProperties1);
 
-            var coordinates2 = new List<Position>
-                {
-                    new Position(0,2),
-                    new Position(0,3),
-                    new Position(1,3),
-                    new Position(2,2),
-                    new Position(0,2)
+            //var coordinates2 = new List<Position>
+            //    {
+            //        new Position(0,2),
+            //        new Position(0,3),
+            //        new Position(2,3),
+            //        new Position(2,2),
+            //        new Position(0,2)
 
-                }.ToList<IPosition>();
+            //    }.ToList<IPosition>();
 
-            var polygon2 = new Polygon(new List<LineString> { new LineString(coordinates2) });
-            var featureProperties2 = new Dictionary<string, object> { { "Name", "Boo" },{ "Area", "123" } };
-            var model2 = new GeoJSON.Net.Feature.Feature(polygon2, featureProperties2);
+            //var polygon2 = new Polygon(new List<LineString> { new LineString(coordinates2) });
+            //var featureProperties2 = new Dictionary<string, object> { { "Name", "Boo" },{ "Area", "123" } };
+            //var model2 = new GeoJSON.Net.Feature.Feature(polygon2, featureProperties2);
 
 
 
-            var modelli = new FeatureCollection(new List<Feature> { model1, model2 });
+            var models = new FeatureCollection(features);
 
             #region File Export
             //EXPORT GEOJSON
-
-            FileExport export = new FileExport(multiPolygon);
-            export.ExportGEOJson(@"C:\Temp\Samples\coordinates");
-
-            var serializedData = JsonConvert.SerializeObject(modelli, Formatting.Indented);
+            var serializedData = JsonConvert.SerializeObject(models, Formatting.Indented);
             StreamWriter writetext = new StreamWriter(@"C:\Temp\Samples\fence.json");
             writetext.WriteLine(serializedData);
             writetext.Flush();

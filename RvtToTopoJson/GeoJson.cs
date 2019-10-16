@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System;
 
-namespace doka
+namespace RvtToTopoJson
 {
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
@@ -66,7 +66,7 @@ namespace doka
                     foreach (BoundarySegment seg in loop)
                     {
                         Line segLine = seg.GetCurve() as Line;
-                        XYZ endPt = segLine.Origin;
+                        XYZ endPt = segLine.GetEndPoint(0);
 
                         if (segId == seg.ElementId)
                         {
@@ -75,7 +75,7 @@ namespace doka
                         else
                         {
                             //TaskDialog.Show("re", $"{endPt.Y} {endPt.X}");
-                           coordinates.Add(new Position(Convert.ToInt16(endPt.Y), Convert.ToInt16(endPt.X)));
+                           coordinates.Add(new Position(endPt.Y*0.3048, endPt.X*0.3048));
                         }
 
                         segId = seg.ElementId;
@@ -127,7 +127,7 @@ namespace doka
             #region File Export
             //EXPORT GEOJSON
             var serializedData = JsonConvert.SerializeObject(models, Formatting.Indented);
-            StreamWriter writetext = new StreamWriter(@"C:\Temp\Samples\fence.json");
+            StreamWriter writetext = new StreamWriter(@"C:\Temp\export.json");
             writetext.WriteLine(serializedData);
             writetext.Flush();
             writetext.Close();

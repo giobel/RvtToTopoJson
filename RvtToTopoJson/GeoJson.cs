@@ -40,6 +40,9 @@ namespace RvtToTopoJson
 
             SpatialElementBoundaryOptions opt = new SpatialElementBoundaryOptions();
 
+            //control the boundary location
+            opt.SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center;
+
             var features = new List<Feature>();
 
             foreach (Reference re in roomReferences)

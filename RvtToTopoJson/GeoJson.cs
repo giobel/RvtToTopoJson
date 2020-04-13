@@ -52,7 +52,18 @@ namespace RvtToTopoJson
 
                     Element roomElement = doc.GetElement(re);
 
-                    string roomName = roomElement.LookupParameter("Name").AsString();
+                    string roomName = "";
+                    try
+                    {
+                        //roomName = roomElement.LookupParameter("Name").AsString();
+                        roomName = roomElement.get_Parameter(BuiltInParameter.ROOM_NAME).AsString();
+
+                    }
+                    catch
+                    {
+                        TaskDialog.Show("Error", "Parameter \"Name\" not found in Room element");
+                        return Result.Failed;
+                    }
 
                     SpatialElement se = doc.GetElement(re) as SpatialElement;
 

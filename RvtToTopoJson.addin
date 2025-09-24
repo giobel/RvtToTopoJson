@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Name>Command RevitGeoJson</Name>
+    <Assembly>RvtToTopoJson\RvtToTopoJson.dll</Assembly>
+    <FullClassName>RvtToTopoJson.App</FullClassName>
+    <ClientId>fc82fb14-1b85-4580-b86d-1e385c09d85b</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

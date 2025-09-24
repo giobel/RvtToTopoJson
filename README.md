@@ -13,7 +13,7 @@ Export Rooms from Revit to GeoJson for Power BI Shape Maps.
 
 ## How it should work
 
-- The External Command code is saved in [GeoJson.cs](https://github.com/giobel/RvtToTopoJson/blob/master/RvtToTopoJson/GeoJson.cs).  It takes a Room corner points, its name and its area and it exports them as GeoJson using the GeoJSON.Net library (credits to Daniel Ignjat for sharing his code on the Autodesk Forum). The GeoJson file is saved as C:\Temp\export.json. 
+- The External Command code is saved in [CreateGeoJson.cs](https://github.com/giobel/RvtToTopoJson/blob/master/RvtToTopoJson/CreateGeoJson.cs). It takes a Room corner points, its name and its area and it exports them as GeoJson using the GeoJSON.Net library (credits to Daniel Ignjat for sharing his code on the Autodesk Forum). The GeoJson file is saved as C:\Temp\export.json. 
 - I've then used mapshaper to transform it into a TopoJson. This file can be imported in Power BI using a Shape map. The TopoJson file can be expanded to access its properties but it's not the best way to do it (I think it would be better to save Room Name and Area in a csv file and use that as a table source in Power BI). 
 - To update all the maps at the same time, the tables must have a relationship between them. I've manually created a new Table merging the Room Names and link it to the Name's column of the other Tables. Again, this is not the best way to do it. Having the Room Names and Areas in a database and pull the data from there would be the best option.
 

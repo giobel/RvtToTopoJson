@@ -61,7 +61,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="FileExport.cs" />
-    <Compile Include="GeoJson.cs" />
+    <Compile Include="CreateGeoJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="TopoJson.cs" />
